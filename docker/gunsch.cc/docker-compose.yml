@@ -1,0 +1,6 @@
+version: '3'
+services:
+  web:
+    image: gunsch.cc:live
+    ports:
+      - "3700:80"
