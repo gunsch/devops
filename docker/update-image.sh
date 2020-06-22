@@ -9,10 +9,7 @@ if [[ $# -lt 2 ]]; then
   exit 1;
 fi
 
-if [[ "$(whoami)" != "root" ]]; then
-  echo "Must be run as root.";
-  exit 1;
-fi
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 REPO_NAME=$1
 IMAGE_VERSION=$2
@@ -22,5 +19,5 @@ GITHUB_PACKAGE_NAME="docker.pkg.github.com/gunsch/${REPO_NAME}/${BRANCH_NAME}:${
 
 docker pull "${GITHUB_PACKAGE_NAME}"
 docker tag "${GITHUB_PACKAGE_NAME}" "${REPO_NAME}:live"
-systemctl restart "docker-gunsch-${REPO_NAME}.service"
+docker-compose -f "${DIR}/${REPO_NAME}/docker-compose.yml" restart
 
