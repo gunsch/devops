@@ -1,0 +1,85 @@
+[
+  {
+    "id": "github-package",
+    "execute-command": "/srv/devops/docker/update-image.sh",
+    "command-working-directory": "/srv/devops/docker",
+    "pass-arguments-to-command":
+    [
+      {
+        "source": "payload",
+        "name": "repository.name"
+      },
+      {
+        "source": "payload",
+        "name": "package.package_version.version"
+      },
+      {
+        "source": "payload",
+        "name": "package.name"
+      }
+    ],
+    "trigger-rule":
+    {
+      "and":
+      [
+        {
+          "match":
+          {
+            "type": "payload-hash-sha1",
+            "secret": "{{ getenv "GITHUB_WEBHOOK_SECRET"}}",
+            "parameter":
+            {
+              "source": "header",
+              "name": "X-Hub-Signature"
+            }
+          }
+        },
+        {
+          "match": {
+            "type": "value",
+            "value": "docker",
+            "parameter": {
+              "source": "payload",
+              "name": "package.package_type"
+            }
+          }
+        },
+        {
+          "match": {
+            "type": "value",
+            "value": "docker",
+            "parameter": {
+              "source": "payload",
+              "name": "package.package_type"
+            }
+          }
+        },
+        {
+          "or": [
+            {
+              "match": {
+                "type": "value",
+                "value": "published",
+                "parameter": {
+                  "source": "payload",
+                  "name": "action"
+                }
+              }
+            },
+            {
+              "match": {
+                "type": "value",
+                "value": "updated",
+                "parameter": {
+                  "source": "payload",
+                  "name": "action"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
+

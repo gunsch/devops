@@ -1,0 +1,17 @@
+[Unit]
+Description=webhook service
+
+[Service]
+Restart=always
+EnvironmentFile=/root/secrets/webhook-environment
+ExecStart=/usr/bin/webhook \
+    --hooks /srv/devops/webhook/github-package.json \
+    --template \
+    --verbose \
+    --port 3800 \
+    --ip 127.0.0.1
+
+[Install]
+WantedBy=default.target
+
+
