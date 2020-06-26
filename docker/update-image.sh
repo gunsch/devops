@@ -1,11 +1,11 @@
 #!/bin/bash
 
 set -Eeo pipefail
-if [[ $# -lt 2 ]]; then
-  echo "Usage: $0 <repo-name> <image-version> [<branch-name>]";
+if [[ $# -lt 3 ]]; then
+  echo "Usage: $0 <repo-name> <image-version> <package-name>";
 	echo ""
-  echo "    Example: $0 gunsch.cc 0.1.16"
-  echo "             restarts using docker.pkg.github.com/gunsch/<gunsch.cc>/master:<0.1.16>"
+  echo "    Example: $0 gunsch.cc 0.1.16 master"
+  echo "             restarts using docker.pkg.github.com/gunsch/<gunsch.cc>/<master>:<0.1.16>"
   exit 1;
 fi
 
@@ -13,9 +13,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 REPO_NAME=$1
 IMAGE_VERSION=$2
-BRANCH_NAME=${3:-master}
+PACKAGE_NAME=${3:-master}
 
-github_description="Deploying ${BRANCH_NAME}:${IMAGE_VERSION}"
+github_description="Deploying ${PACKAGE_NAME}:${IMAGE_VERSION}"
 
 function github_create_deployment {
   if [[ -z "${GITHUB_DEPLOYMENT_SECRET}" ]]; then return; fi
@@ -42,7 +42,7 @@ function github_update_deployment {
       "https://api.github.com/repos/gunsch/${REPO_NAME}/deployments/${deployment_id}/statuses"
 }
 
-GITHUB_PACKAGE_NAME="docker.pkg.github.com/gunsch/${REPO_NAME}/${BRANCH_NAME}:${IMAGE_VERSION}"
+GITHUB_PACKAGE_NAME="docker.pkg.github.com/gunsch/${REPO_NAME}/${PACKAGE_NAME}:${IMAGE_VERSION}"
 
 # Start a GitHub deployment indicator
 deployment_id=$(github_create_deployment)
