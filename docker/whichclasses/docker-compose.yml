@@ -4,7 +4,7 @@ services:
    db:
      image: mysql:5.7
      volumes:
-       - /srv/mysql/uatce.mysql:/docker-entrypoint-initdb.d/uatce.sql
+       - /srv/mysql/uatce.sql:/docker-entrypoint-initdb.d/uatce.sql
        - ./mysqld.override.cnf:/etc/mysql/mysql.conf.d/mysqld.override.cnf
        - mysql_data:/var/lib/mysql
      restart: always
@@ -17,7 +17,7 @@ services:
    web:
      depends_on:
        - db
-     build: .
+     image: whichclasses:live
      ports:
        - "3900:80"
      restart: always
