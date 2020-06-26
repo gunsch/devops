@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+   db:
+     image: mysql:5.7
+     volumes:
+       - /srv/mysql/uatce.mysql:/docker-entrypoint-initdb.d/uatce.sql
+       - ./mysqld.override.cnf:/etc/mysql/mysql.conf.d/mysqld.override.cnf
+       - mysql_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_DATABASE: uatce
+       MYSQL_USER: tce
+       MYSQL_PASSWORD: password
+       MYSQL_ROOT_PASSWORD: password
+
+   web:
+     depends_on:
+       - db
+     build: .
+     ports:
+       - "3900:80"
+     restart: always
+volumes:
+    mysql_data: {}
