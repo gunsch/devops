@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - /srv/mysql/brackets.sql:/docker-entrypoint-initdb.d/brackets-data.sql
+      - mysql_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: brackets
+      MYSQL_USER: brackets
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+
+  redis:
+    image: redis:alpine
+    restart: always
+
+  web:
+    depends_on:
+      - db
+      - redis
+    image: brackets:live
+    ports:
+      - "3600:80"
+    restart: always
+    env_file: /srv/brackets/env
+volumes:
+  mysql_data: {}
