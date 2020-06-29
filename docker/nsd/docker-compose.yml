@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  nsd:
+    container_name: nsd
+    image: nlimage/nsd
+    ports:
+      - "53:53/udp"
+      - "53:53"
+    volumes:
+      - type: bind
+        source: /srv/dns/zones
+        target: /etc/nsd/zones
