@@ -49,7 +49,7 @@ deployment_id=$(github_create_deployment)
 
 docker pull "${GITHUB_PACKAGE_NAME}"
 docker tag "${GITHUB_PACKAGE_NAME}" "${REPO_NAME}:live"
-docker-compose -f "${DIR}/${REPO_NAME}/docker-compose.yml" restart
+docker-compose -f "${DIR}/${REPO_NAME}/docker-compose.yml" up -d --no-deps
 
 # Update GitHub deployment as a success!
 github_update_deployment "${deployment_id}" "success"
