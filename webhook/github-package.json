@@ -37,10 +37,10 @@
         {
           "match": {
             "type": "value",
-            "value": "docker",
+            "value": "master",
             "parameter": {
               "source": "payload",
-              "name": "package.package_type"
+              "name": "package.package_version.target_commitish"
             }
           }
         },
