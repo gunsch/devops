@@ -1,0 +1,6 @@
+version: '3'
+services:
+  web:
+    image: rss-digest:live
+    ports:
+      - "3500:80"
