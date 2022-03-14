@@ -35,14 +35,28 @@
           }
         },
         {
-          "match": {
-            "type": "value",
-            "value": "master",
-            "parameter": {
-              "source": "payload",
-              "name": "package.package_version.target_commitish"
+          "or": [
+            {
+              "match": {
+                "type": "value",
+                "value": "master",
+                "parameter": {
+                  "source": "payload",
+                  "name": "package.package_version.target_commitish"
+                }
+              }
+            },
+            {
+              "match": {
+                "type": "value",
+                "value": "main",
+                "parameter": {
+                  "source": "payload",
+                  "name": "package.package_version.target_commitish"
+                }
+              }
             }
-          }
+          ]
         },
         {
           "match": {
