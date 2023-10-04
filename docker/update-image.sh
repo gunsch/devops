@@ -24,7 +24,7 @@ function github_create_deployment {
   deployment_id=$(curl \
       -H "Authorization: token ${GITHUB_DEPLOYMENT_SECRET}" \
       -H "content-type: application/json" \
-      -d "{\"ref\":\"master\", \"description\": \"${github_description}\"}" \
+      -d "{\"ref\":\"main\", \"description\": \"${github_description}\"}" \
       "https://api.github.com/repos/gunsch/${REPO_NAME}/deployments" | \
       python3 -c 'import json; import sys; print(json.load(sys.stdin)["id"])')
   echo ${deployment_id}
